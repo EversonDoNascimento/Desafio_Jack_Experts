@@ -1,0 +1,32 @@
+// Para cada tabela no banco de dados teremos um model
+
+// O model User representa a tabela user no banco de dados
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  password String
+  Task Task[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// O model Task representa a tabela task no banco de dados
+model Task {
+  id Int @id @default(autoincrement())
+  title String
+  descripion String? @db.LongText
+  completed Boolean @default(false)
+  id_user Int
+  user User? @relation(fields: [id_user],references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
