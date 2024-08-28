@@ -7,7 +7,7 @@ class UserController {
   // Criando um atributo com uma instância da classe UserPrisma
   private static userPrisma: UserPrisma = new UserPrisma();
 
-  public static registerUser: RequestHandler = async (req, res) => {
+  public static registerUser: RequestHandler = async (req, res, next) => {
     // Validando o que foi recebido no corpo da requisição com o meu schema definido no zod;
     const body = AuthSchema.safeParse(req.body);
     // Se a validação não estiver correta um aviso é retornado
@@ -26,9 +26,10 @@ class UserController {
     const created = await this.userPrisma.createUser(user);
     // Verificando se o usuário foi criado com sucesso
     if (created == null) {
-      return res.status(500).json({ error: "Erro ao criar usuário!" });
+      return res.status(500).json({ error: "Erro ao cadastrar usuário!" });
     }
-    return res.status(201).json({ user });
+    req.user = created;
+    next();
   };
 }
 

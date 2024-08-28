@@ -2,7 +2,7 @@
 
 // O model User representa a tabela user no banco de dados
 model User {
-  id Int @id @default(autoincrement())
+  id String   @id @default(uuid()) @db.Char(36)
   email String @unique
   password String
   tasks Task[]
@@ -14,11 +14,11 @@ model User {
 
 // O model Task representa a tabela task no banco de dados
 model Task {
-  id Int @id @default(autoincrement())
+  id String   @id @default(uuid()) @db.Char(36)
   title String
   descripion String? @db.LongText
   completed Boolean @default(false)
-  id_user Int
+  id_user String
   user User? @relation(fields: [id_user],references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

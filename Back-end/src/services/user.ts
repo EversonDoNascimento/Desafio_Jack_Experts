@@ -8,10 +8,14 @@ export class UserPrisma implements UserDAO {
   public async createUser(user: User): Promise<User | null> {
     try {
       const data = { email: user.getEmail(), password: user.getPassword() };
+      // Garantido que não haverá usuários com o mesmo email cadastrados no sistema
+      const verifyDuplicateUsert = await this.findUserByEmail(data.email);
+      if (verifyDuplicateUsert) return null;
+      // Criando o usuário no banco de dados
       const register = await prisma.user.create({ data });
       if (register) {
         const userTemp = new User();
-        userTemp.setId(Number(register));
+        userTemp.setId(register.id);
         userTemp.setEmail(register.email);
         userTemp.setPassword(register.password);
         return userTemp;
@@ -32,7 +36,7 @@ export class UserPrisma implements UserDAO {
       // Verificando se algum usuário foi retornado
       if (userFind) {
         // Preenchendo a instancia de User com as informações do user que retornou do banco de dados
-        user.setId(Number(userFind));
+        user.setId(userFind.id);
         user.setEmail(userFind.email);
         user.setPassword(userFind.password);
         // Retornando o user
