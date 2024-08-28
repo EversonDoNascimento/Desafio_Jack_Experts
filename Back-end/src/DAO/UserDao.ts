@@ -27,8 +27,8 @@ export class User {
 }
 
 export interface UserDAO {
-  createUser: (user: User) => User;
-  findUserByEmail: (email: string) => User | null;
+  createUser: (user: User) => Promise<User | null>;
+  findUserByEmail: (email: string) => Promise<User | null>;
 }
 
 // class pessoa implements UserDAO {

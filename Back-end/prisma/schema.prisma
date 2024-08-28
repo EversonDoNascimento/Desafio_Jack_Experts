@@ -5,9 +5,11 @@ model User {
   id Int @id @default(autoincrement())
   email String @unique
   password String
-  Task Task[]
+  tasks Task[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("users")
 }
 
 // O model Task representa a tabela task no banco de dados
@@ -20,6 +22,8 @@ model Task {
   user User? @relation(fields: [id_user],references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("tasks")
 }
 
 generator client {

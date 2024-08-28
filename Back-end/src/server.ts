@@ -3,7 +3,7 @@ import express from "express";
 // Importando o módulo helmet para adicionar algumas proteções contra ataques comuns
 import helmet from "helmet";
 // Importando o arquivo de rotas do projeto
-import router from "./routes";
+import router from "./routes/index";
 import { requestIntercepter } from "./utils/requestIntercepter";
 import cors from "cors";
 //Iniciando o servidor
