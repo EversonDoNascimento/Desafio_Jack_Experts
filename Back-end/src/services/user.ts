@@ -51,6 +51,19 @@ export class UserPrisma implements UserDAO {
   }
 
   public async findUserById(id: string): Promise<User | null> {
-    return null;
+    const userTemp = new User();
+    try {
+      const findUser = await prisma.user.findFirst({ where: { id } });
+      if (findUser) {
+        userTemp.setEmail(findUser.email);
+        userTemp.setPassword(findUser.password);
+        userTemp.setId(findUser.id);
+        return userTemp;
+      }
+      return null;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
   }
 }

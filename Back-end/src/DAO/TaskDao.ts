@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { User } from "./UserDao";
 
 export class Task {
   public constructor(
@@ -45,7 +45,7 @@ export interface TaskDAO {
   // Método para procurar uma tarefa específica por ID
   findTaskById: (id: string) => Promise<Task | null>;
   // Método que lista todas as tasks por ID do usuário associado a task
-  listTasks: (user: User) => Promise<Task | null>;
+  listTasks: (id_user: string) => Promise<Task[] | null | void>;
   // Método para criar Task
   createTask: (task: Task) => Promise<Task | null>;
 }
