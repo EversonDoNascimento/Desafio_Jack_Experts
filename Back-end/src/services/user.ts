@@ -49,4 +49,8 @@ export class UserPrisma implements UserDAO {
       return null;
     }
   }
+
+  public async findUserById(id: string): Promise<User | null> {
+    return null;
+  }
 }

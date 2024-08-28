@@ -29,4 +29,5 @@ export class User {
 export interface UserDAO {
   createUser: (user: User) => Promise<User | null>;
   findUserByEmail: (email: string) => Promise<User | null>;
+  findUserById: (id: string) => Promise<User | null>;
 }
