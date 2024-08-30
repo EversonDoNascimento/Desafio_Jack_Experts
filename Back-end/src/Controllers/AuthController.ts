@@ -7,14 +7,10 @@ import { UserPrisma } from "../services/user";
 class AuthController {
   private static userPrisma: UserPrisma = new UserPrisma();
   public static login: RequestHandler = async (req, res, next) => {
-    // Verificando se os dados estão vindo do userController
-    if (req.user) {
-      const userInfo = req.user;
-      return res.json({ userInfo });
-    }
-
     // Validando o que foi recebido no corpo da requisição com o schema definido no zod;
-    const body = AuthSchema.safeParse(req.body);
+    // A verificação que está sendo passada como parâmetro serve para verificar se o usuário tá se cadastrando ou
+    // fazendo login
+    const body = AuthSchema.safeParse(req.user ? req.user : req.body);
     // Se a validação não estiver correta um aviso é retornado
     if (!body.success) {
       return res.status(500).json({ error: "Dados inválidos" });
@@ -37,9 +33,9 @@ class AuthController {
     const token = JWT.sign(
       { id: findUserByEmail.getId(), email: findUserByEmail.getEmail() },
       process.env.JWT_KEY as string,
-      { expiresIn: "1 minute" }
+      { expiresIn: "1 hour" }
     );
-    return res.status(200).json(token);
+    return res.status(200).json({ token });
   };
 }
 

@@ -8,17 +8,21 @@ const router = express.Router();
 // Task Routes
 
 // Rota para buscar tasks do usuário através id do usuário
-router.get("/tasks/:id_user", TaskController.listTasksByUserId);
+router.get("/tasks/:id_user", privateRoute, TaskController.listTasksByUserId);
 // Rota para buscar task através do id da task
-router.get("/task/findTask/:id_task", TaskController.getTaskById);
+router.get("/task/findTask/:id_task", privateRoute, TaskController.getTaskById);
 // Rota para cadastrar task
-router.post("/task/register", TaskController.registerTask);
+router.post("/task/register", privateRoute, TaskController.registerTask);
 // Rota para atualizar status da task como concluída ou não
-router.patch("/task/completed/:id_task", TaskController.toggleTaskStatus);
+router.patch(
+  "/task/completed/:id_task",
+  privateRoute,
+  TaskController.toggleTaskStatus
+);
 // Rota para deletar a task
-router.delete("/task/delete/:id_task", TaskController.deleteTask);
+router.delete("/task/delete/:id_task", privateRoute, TaskController.deleteTask);
 // Rota para editar uma task
-router.patch("/task/edit", TaskController.editTask);
+router.patch("/task/edit", privateRoute, TaskController.editTask);
 
 // User Routes
 

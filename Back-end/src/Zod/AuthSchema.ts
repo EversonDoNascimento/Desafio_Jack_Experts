@@ -4,7 +4,7 @@ import { z } from "zod";
 // Criando schema de validação para autenticação
 const AuthSchema = z.object({
   email: z.string().email("Email inválido!"),
-  password: z.string().min(4, "Senha deve conter pelo menos 4 caracteres"),
+  password: z.string().min(4, "A senha deve conter pelo menos 4 caracteres"),
 });
 
 export default AuthSchema;
