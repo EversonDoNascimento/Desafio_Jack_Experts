@@ -1,12 +1,13 @@
 import { RequestHandler } from "express";
 import { UserPrisma } from "../services/user";
-import { TaskSchema } from "../Zod/TaskSchema";
+import { TaskSchema, TaskSchemaEdit } from "../Zod/TaskSchema";
 import { TaskPrisma } from "../services/task";
 import { Task } from "../DAO/TaskDao";
 
 class TaskController {
   private static userPrisma: UserPrisma = new UserPrisma();
   private static taskPrisma: TaskPrisma = new TaskPrisma();
+
   // Método para listar todas as tasks relacionadas ao usuário
   public static listTasksByUserId: RequestHandler = async (req, res) => {
     // Obtendo id do usuário via params
@@ -24,6 +25,7 @@ class TaskController {
     // Retornando os dados
     return res.status(200).json({ data: findTasks });
   };
+
   // Método para buscar uma task pelo ID
   public static getTaskById: RequestHandler = async (req, res) => {
     // Obtendo o id da task do params da requisição
@@ -72,6 +74,59 @@ class TaskController {
     }
 
     return res.status(500).json({ error: "Erro ao criar tarefa!" });
+  };
+  // Alterando status da tarefa
+  public static toggleTaskStatus: RequestHandler = async (req, res) => {
+    // Obtendo o ID da task através do params da URL
+    const { id_task } = req.params;
+    // Verificando se o ID foi enviado
+    if (!id_task)
+      return res.status(404).json({ error: "ID da tarefa não enviado!" });
+    // Modificando o status da task
+    // Se estiver como true passa a ser false, ou vice-versa
+    const updateTask = await this.taskPrisma.completedTask(id_task);
+    // Verificando se no processo de alteração de status ocorreu algum erro
+    if (!updateTask) {
+      return res
+        .status(500)
+        .json({ error: "Erro ao atualizar status da tarefa!" });
+    }
+    // Retornando a task com o status atualizado
+    return res.status(200).json(updateTask);
+  };
+  public static deleteTask: RequestHandler = async (req, res) => {
+    // Obtendo o ID da task através do params da URL
+    const { id_task } = req.params;
+    // Verificando se o ID foi enviado
+    if (!id_task)
+      return res.status(404).json({ error: "ID da tarefa não enviado!" });
+    // Deletando a task
+    const deleteTask = await this.taskPrisma.deleteTask(id_task);
+    if (!deleteTask) {
+      return res.status(500).json({ error: "Erro ao deletar a tarefa!" });
+    }
+    return res.status(200).json({ success: "Tarefa deletada com sucesso!" });
+  };
+  public static editTask: RequestHandler = async (req, res) => {
+    // Validando o que foi recebido no corpo da requisição com o meu schema definido no zod;
+    const body = TaskSchemaEdit.safeParse(req.body);
+    // Se a validação não estiver correta um aviso é retornado
+    if (!body.success) {
+      return res.status(500).json({ error: "Dados inválidos" });
+    }
+    // Pegando informações do corpo da requisição
+    const { id, title, description } = req.body;
+    // Preenchendo a instancia da classe task com as informações
+    const task = new Task();
+    task.setId(id);
+    task.setTitle(title);
+    task.setDescription(description as string);
+    // Atualizando a task
+    const updateTask = await this.taskPrisma.editTask(task);
+    if (!updateTask) {
+      return res.status(500).json({ error: "Erro ao atualizar a tarefa!" });
+    }
+    return res.status(200).json({ data: updateTask });
   };
 }
 

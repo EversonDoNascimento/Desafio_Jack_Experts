@@ -13,6 +13,12 @@ router.get("/tasks/:id_user", TaskController.listTasksByUserId);
 router.get("/task/findTask/:id_task", TaskController.getTaskById);
 // Rota para cadastrar task
 router.post("/task/register", TaskController.registerTask);
+// Rota para atualizar status da task como concluída ou não
+router.patch("/task/completed/:id_task", TaskController.toggleTaskStatus);
+// Rota para deletar a task
+router.delete("/task/delete/:id_task", TaskController.deleteTask);
+// Rota para editar uma task
+router.patch("/task/edit", TaskController.editTask);
 
 // User Routes
 

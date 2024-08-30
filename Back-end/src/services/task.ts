@@ -25,7 +25,7 @@ export class TaskPrisma implements TaskDAO {
       }
       return null;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return null;
     }
   }
@@ -44,7 +44,7 @@ export class TaskPrisma implements TaskDAO {
         return taskTemp;
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return null;
     }
     return null;
@@ -72,9 +72,85 @@ export class TaskPrisma implements TaskDAO {
         return data;
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return null;
     }
     return null;
+  }
+  public async completedTask(id: string): Promise<Task | null> {
+    const taskTemp = new Task();
+    try {
+      if (id) {
+        const findTask = await prisma.task.findFirst({ where: { id: id } });
+        if (findTask) {
+          taskTemp.setId(findTask.id);
+          taskTemp.setTitle(findTask.title);
+          taskTemp.setDescription(findTask.description as string);
+          taskTemp.setCompleted(findTask.completed);
+          taskTemp.setUserId(findTask.id_user);
+          const data = { completed: !taskTemp.getCompleted() };
+          const updateTask = await prisma.task.update({ where: { id }, data });
+          if (updateTask) {
+            taskTemp.setId(updateTask.id);
+            taskTemp.setTitle(updateTask.title);
+            taskTemp.setDescription(updateTask.description as string);
+            taskTemp.setCompleted(updateTask.completed);
+            taskTemp.setUserId(updateTask.id_user);
+            return taskTemp;
+          }
+          return null;
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+    return null;
+  }
+  public async deleteTask(id: string): Promise<boolean> {
+    try {
+      if (id) {
+        // Verificando se a task existe no banco de dados;
+        const findTask = await prisma.task.findFirst({ where: { id: id } });
+        if (findTask) {
+          const deleteTask = await prisma.task.delete({ where: { id: id } });
+          // Verificando se a task foi deletada com sucesso!
+          if (deleteTask) {
+            return true;
+          }
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+    return false;
+  }
+  public async editTask(task: Task): Promise<Task | null> {
+    try {
+      if (task.getId() !== "") {
+        const data = {
+          title: task.getTitle(),
+          description: task.getDescription(),
+        };
+        const updateTask = await prisma.task.update({
+          where: { id: task.getId() },
+          data,
+        });
+        if (updateTask) {
+          task.setId(updateTask.id);
+          task.setTitle(updateTask.title);
+          task.setDescription(updateTask.description as string);
+          task.setCompleted(updateTask.completed);
+          task.setUserId(updateTask.id_user);
+          return task;
+        }
+        return null;
+      }
+      return null;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 }

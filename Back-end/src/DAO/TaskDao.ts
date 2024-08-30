@@ -1,5 +1,3 @@
-import { User } from "./UserDao";
-
 export class Task {
   public constructor(
     private id: string = "",
@@ -48,4 +46,10 @@ export interface TaskDAO {
   listTasks: (id_user: string) => Promise<Task[] | null | void>;
   // Método para criar Task
   createTask: (task: Task) => Promise<Task | null>;
+  // Método para marcar uma task como concluída
+  completedTask: (id: string) => Promise<Task | null>;
+  //Método para editar uma task
+  editTask: (task: Task) => Promise<Task | null>;
+  // Método para excluir uma task
+  deleteTask: (id: string) => Promise<boolean>;
 }
