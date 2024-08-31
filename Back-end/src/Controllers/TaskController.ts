@@ -82,9 +82,15 @@ class TaskController {
     // Verificando se o ID foi enviado
     if (!id_task)
       return res.status(404).json({ error: "ID da tarefa não enviado!" });
+
+    const { completed } = req.body;
+
+    if (!completed)
+      return res.status(404).json({ error: "Status da tarefa não enviado!" });
+
     // Modificando o status da task
     // Se estiver como true passa a ser false, ou vice-versa
-    const updateTask = await this.taskPrisma.completedTask(id_task);
+    const updateTask = await this.taskPrisma.completedTask(id_task, completed);
     // Verificando se no processo de alteração de status ocorreu algum erro
     if (!updateTask) {
       return res

@@ -1,5 +1,4 @@
 import { Task, TaskDAO } from "../DAO/TaskDao";
-import { User } from "../DAO/UserDao";
 import { prisma } from "../libs/prisma";
 
 export class TaskPrisma implements TaskDAO {
@@ -77,7 +76,7 @@ export class TaskPrisma implements TaskDAO {
     }
     return null;
   }
-  public async completedTask(id: string): Promise<Task | null> {
+  public async completedTask(id: string, status: number): Promise<Task | null> {
     const taskTemp = new Task();
     try {
       if (id) {
@@ -88,7 +87,8 @@ export class TaskPrisma implements TaskDAO {
           taskTemp.setDescription(findTask.description as string);
           taskTemp.setCompleted(findTask.completed);
           taskTemp.setUserId(findTask.id_user);
-          const data = { completed: !taskTemp.getCompleted() };
+          // 0 | 1 | 2
+          const data = { completed: status };
           const updateTask = await prisma.task.update({ where: { id }, data });
           if (updateTask) {
             taskTemp.setId(updateTask.id);

@@ -3,7 +3,7 @@ export class Task {
     private id: string = "",
     private title: string = "",
     private description: string = "",
-    private completed: boolean = false,
+    private completed: number = 0,
     private id_user: string = ""
   ) {}
 
@@ -28,7 +28,7 @@ export class Task {
   public getCompleted() {
     return this.completed;
   }
-  public setCompleted(completed: boolean) {
+  public setCompleted(completed: number) {
     this.completed = completed;
   }
   public getIdUser() {
@@ -47,7 +47,7 @@ export interface TaskDAO {
   // Método para criar Task
   createTask: (task: Task) => Promise<Task | null>;
   // Método para marcar uma task como concluída
-  completedTask: (id: string) => Promise<Task | null>;
+  completedTask: (id: string, status: number) => Promise<Task | null>;
   //Método para editar uma task
   editTask: (task: Task) => Promise<Task | null>;
   // Método para excluir uma task

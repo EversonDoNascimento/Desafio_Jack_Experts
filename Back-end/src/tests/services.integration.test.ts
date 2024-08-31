@@ -12,7 +12,7 @@ const taskPrisma = new TaskPrisma();
 const task = new Task();
 task.setTitle("Estudar");
 task.setDescription("Estudar lógica de programação");
-task.setCompleted(false);
+task.setCompleted(0);
 
 describe("Test suite responsible for testing the user service", () => {
   // Teste responsável pela criação de usuário
@@ -78,10 +78,10 @@ describe("Test suite responsible for testing the task service", () => {
   // Testando modificação de status da tarefa
   it("Testing task status change", async () => {
     // Alterando status da tarefa
-    const toggleStatus = await taskPrisma.completedTask(task.getId());
+    const toggleStatus = await taskPrisma.completedTask(task.getId(), 2);
     // Verificando se o status foi alterado
-    // Inicialmente o status era false, então após a mudança ele deve passar a ser true
-    expect(toggleStatus?.getCompleted).toBeTruthy();
+    // Inicialmente o status era 0, então após a mudança ele deve passar a ser 2
+    expect(toggleStatus?.getCompleted()).toEqual(2);
   });
   // Testando a edição de uma tarefa
   it("Testing task editing", async () => {
