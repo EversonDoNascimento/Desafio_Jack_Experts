@@ -34,4 +34,5 @@ router.post(
   UserController.registerUser,
   AuthController.login
 );
+router.get("/user/verifyToken", privateRoute, AuthController.verifyToken);
 export default router;

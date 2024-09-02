@@ -27,7 +27,7 @@ class AuthController {
     );
     // Veficando se as senhas coincidem
     if (!verifyPass) {
-      return res.json({ error: "Email e/ou senha inválidos!" });
+      return res.status(401).json({ error: "Email e/ou senha inválidos!" });
     }
     // Gerando o token de acesso para o usuário
     const token = JWT.sign(
@@ -36,6 +36,9 @@ class AuthController {
       { expiresIn: "1 hour" }
     );
     return res.status(200).json({ token });
+  };
+  public static verifyToken: RequestHandler = async (_, res) => {
+    return res.status(200).json({ success: true });
   };
 }
 
