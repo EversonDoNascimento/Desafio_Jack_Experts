@@ -52,4 +52,11 @@ export interface TaskDAO {
   editTask: (task: Task) => Promise<Task | null>;
   // Método para excluir uma task
   deleteTask: (id: string) => Promise<boolean>;
+  // Método para listar tasks por status
+  qtdTasksByStatus: (id_user: string) => Promise<{
+    doing: number;
+    todo: number;
+    done: number;
+    total: number;
+  } | null>;
 }

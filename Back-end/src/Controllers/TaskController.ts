@@ -134,6 +134,21 @@ class TaskController {
     }
     return res.status(200).json({ data: updateTask });
   };
+
+  public static getTasksByStatus: RequestHandler = async (req, res) => {
+    const { userId } = req.params;
+    if (!userId)
+      return res.status(404).json({
+        error: "ID do usuário  não foi enviado",
+      });
+
+    const findTask = await this.taskPrisma.qtdTasksByStatus(userId);
+    if (findTask == null)
+      return res
+        .status(500)
+        .json({ error: "Erro ao buscar quantidade de tarefas!" });
+    return res.status(200).json(findTask);
+  };
 }
 
 export default TaskController;

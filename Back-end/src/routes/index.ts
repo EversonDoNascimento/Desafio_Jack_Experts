@@ -23,6 +23,8 @@ router.patch(
 router.delete("/task/delete/:id_task", privateRoute, TaskController.deleteTask);
 // Rota para editar uma task
 router.patch("/task/edit", privateRoute, TaskController.editTask);
+// Rota para buscar quantidade de tarefas por status
+router.get("/tasks/qtd/:userId", privateRoute, TaskController.getTasksByStatus);
 
 // User Routes
 

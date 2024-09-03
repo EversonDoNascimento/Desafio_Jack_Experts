@@ -153,4 +153,56 @@ export class TaskPrisma implements TaskDAO {
       return null;
     }
   }
+  public async qtdTasksByStatus(id_user: string): Promise<{
+    doing: number;
+    todo: number;
+    done: number;
+    total: number;
+  } | null> {
+    try {
+      // Verificando se o ID do usuário foi enviado
+      if (id_user) {
+        // Objeto de retorno das quantidades
+        const qtdTasks: {
+          doing: number;
+          todo: number;
+          done: number;
+          total: number;
+        } = {
+          todo: 0,
+          doing: 0,
+          done: 0,
+          total: 0,
+        };
+        // Criando o array temporário para armazenar a quantidade de tasks por status
+        const tempArray = [];
+        // Rodando um laço for para pegar do status 0 até 0 2
+        // Status 0 = Para fazer
+        // Status 1 = Fazendo
+        // Status 2 = Feito
+        for (let index = 0; index <= 2; index++) {
+          const findQtdTasksByStatus = await prisma.task.count({
+            where: { id_user, completed: index },
+          });
+          if (findQtdTasksByStatus || findQtdTasksByStatus == 0) {
+            tempArray[index] = findQtdTasksByStatus;
+          }
+        }
+        // Rodando um reduce para somar a quantidade de todas as tasks encontradas
+        const qtdTotalTasks = tempArray.reduce(
+          (accumulator, currentItem) => accumulator + currentItem,
+          0
+        );
+        qtdTasks.todo = tempArray[0];
+        qtdTasks.doing = tempArray[1];
+        qtdTasks.done = tempArray[2];
+        qtdTasks.total = qtdTotalTasks;
+        return qtdTasks;
+      }
+      return null;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
 }
