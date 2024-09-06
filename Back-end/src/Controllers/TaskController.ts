@@ -85,7 +85,7 @@ class TaskController {
 
     const { completed } = req.body;
 
-    if (!completed)
+    if (!completed && completed !== 0)
       return res.status(404).json({ error: "Status da tarefa não enviado!" });
 
     // Modificando o status da task

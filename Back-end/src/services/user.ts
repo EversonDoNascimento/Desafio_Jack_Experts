@@ -9,8 +9,8 @@ export class UserPrisma implements UserDAO {
     try {
       const data = { email: user.getEmail(), password: user.getPassword() };
       // Garantido que não haverá usuários com o mesmo email cadastrados no sistema
-      const verifyDuplicateUsert = await this.findUserByEmail(data.email);
-      if (verifyDuplicateUsert) return null;
+      const verifyDuplicateUser = await this.findUserByEmail(data.email);
+      if (verifyDuplicateUser) return null;
       // Criando o usuário no banco de dados
       const register = await prisma.user.create({ data });
       if (register) {

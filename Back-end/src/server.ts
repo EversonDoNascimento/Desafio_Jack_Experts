@@ -1,5 +1,6 @@
 // Importando o módulo express para criar o servidor Web
 import express from "express";
+
 // Importando o módulo helmet para adicionar algumas proteções contra ataques comuns
 import helmet from "helmet";
 // Importando o arquivo de rotas do projeto
