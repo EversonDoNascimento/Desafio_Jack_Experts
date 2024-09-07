@@ -5,7 +5,7 @@ import { TaskPrisma } from "../services/task";
 
 const userPrisma = new UserPrisma();
 const user = new User();
-user.setEmail("jest2@test.com");
+user.setEmail("jest3@test.com");
 user.setPassword("1234");
 
 const taskPrisma = new TaskPrisma();
@@ -50,56 +50,56 @@ describe("Test suite responsible for testing the user service", () => {
   });
 });
 
-// describe("Test suite responsible for testing the task service", () => {
-//   // Testando a criação de tarefa
-//   it("Testing the task creation", async () => {
-//     // Criando tarefa
-//     const createTask = await taskPrisma.createTask(task);
-//     // Verificando se a instância da classe retornada é do tipo Task
-//     expect(createTask).toBeInstanceOf(Task);
-//     // Setando id retornado pela task criada no objeto local da task
-//     task.setId(createTask?.getId() as string);
-//   });
-//   // Testando busca de tarefa por ID
-//   it("Testing search task by Id", async () => {
-//     // Buscando a tarefa pelo ID
-//     const findTaskById = await taskPrisma.findTaskById(task.getId());
-//     // Verificando se a instância da classe retornada é do tipo Task
-//     expect(findTaskById).toBeInstanceOf(Task);
-//     // Verificando se a tarefa retornada é a mesma que foi usada no parâmetro de busca
-//     expect(findTaskById?.getId()).toBe(task.getId());
-//   });
-//   // Testando listagem de tarefas pelo ID do usuário
-//   it("Testing list tasks by user Id", async () => {
-//     // Buscando todas as tarefas do usuário
-//     const findTaskByUserId = await taskPrisma.listTasks(user.getId());
-//     // Verificando se o retorno da foi do tipo Array
-//     expect(findTaskByUserId).toBeInstanceOf(Array);
-//   });
-//   // Testando modificação de status da tarefa
-//   it("Testing task status change", async () => {
-//     // Alterando status da tarefa
-//     const toggleStatus = await taskPrisma.completedTask(task.getId(), 2);
-//     // Verificando se o status foi alterado
-//     // Inicialmente o status era 0, então após a mudança ele deve passar a ser 2
-//     expect(toggleStatus?.getCompleted()).toEqual(2);
-//   });
-//   // Testando a edição de uma tarefa
-//   it("Testing task editing", async () => {
-//     // Setando as alterações na task
-//     task.setTitle("Modificando título..."),
-//       task.setDescription("Modificando descrição...");
-//     // Realizando a edição
-//     const editTask = await taskPrisma.editTask(task);
-//     // Verificando se a task foi alterada com o novo valor
-//     expect(editTask?.getTitle()).toBe("Modificando título...");
-//     expect(editTask?.getDescription()).toBe("Modificando descrição...");
-//   });
-//   // Testando a remoção da tarefa
-//   it("Testing task removal", async () => {
-//     // Deletando a tarefa
-//     const deleteTask = await taskPrisma.deleteTask(task.getId());
-//     // Verificando se a tarefa foi deletada com sucesso. Caso retorne true significa que tudo ocorreu corretamente
-//     expect(deleteTask).toBeTruthy();
-//   });
-// });
+describe("Test suite responsible for testing the task service", () => {
+  // Testando a criação de tarefa
+  it("Testing the task creation", async () => {
+    // Criando tarefa
+    const createTask = await taskPrisma.createTask(task);
+    // Verificando se a instância da classe retornada é do tipo Task
+    expect(createTask).toBeInstanceOf(Task);
+    // Setando id retornado pela task criada no objeto local da task
+    task.setId(createTask?.getId() as string);
+  });
+  // Testando busca de tarefa por ID
+  it("Testing search task by Id", async () => {
+    // Buscando a tarefa pelo ID
+    const findTaskById = await taskPrisma.findTaskById(task.getId());
+    // Verificando se a instância da classe retornada é do tipo Task
+    expect(findTaskById).toBeInstanceOf(Task);
+    // Verificando se a tarefa retornada é a mesma que foi usada no parâmetro de busca
+    expect(findTaskById?.getId()).toBe(task.getId());
+  });
+  // Testando listagem de tarefas pelo ID do usuário
+  it("Testing list tasks by user Id", async () => {
+    // Buscando todas as tarefas do usuário
+    const findTaskByUserId = await taskPrisma.listTasks(user.getId());
+    // Verificando se o retorno da foi do tipo Array
+    expect(findTaskByUserId).toBeInstanceOf(Array);
+  });
+  // Testando modificação de status da tarefa
+  it("Testing task status change", async () => {
+    // Alterando status da tarefa
+    const toggleStatus = await taskPrisma.completedTask(task.getId(), 2);
+    // Verificando se o status foi alterado
+    // Inicialmente o status era 0, então após a mudança ele deve passar a ser 2
+    expect(toggleStatus?.getCompleted()).toEqual(2);
+  });
+  // Testando a edição de uma tarefa
+  it("Testing task editing", async () => {
+    // Setando as alterações na task
+    task.setTitle("Modificando título..."),
+      task.setDescription("Modificando descrição...");
+    // Realizando a edição
+    const editTask = await taskPrisma.editTask(task);
+    // Verificando se a task foi alterada com o novo valor
+    expect(editTask?.getTitle()).toBe("Modificando título...");
+    expect(editTask?.getDescription()).toBe("Modificando descrição...");
+  });
+  // Testando a remoção da tarefa
+  it("Testing task removal", async () => {
+    // Deletando a tarefa
+    const deleteTask = await taskPrisma.deleteTask(task.getId());
+    // Verificando se a tarefa foi deletada com sucesso. Caso retorne true significa que tudo ocorreu corretamente
+    expect(deleteTask).toBeTruthy();
+  });
+});
