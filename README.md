@@ -86,7 +86,7 @@ git https://github.com/EversonDoNascimento/Desafio_Jack_Experts.git
 # Conteúdo do .env
 
   JWT_KEY=""
-  DATABASE_URL="mysql://user_name:db_password@localhost:3306/db_name"
+  DATABASE_URL="mysql://user_name:password@localhost:3306/db_name"
 
 
 ```
@@ -145,7 +145,7 @@ Os testes realizados no back-end do projeto foram testes de integração, onde c
 ```bash
 # Conteúdo do .env
 
-  DATABASE_URL="mysql://user_name:db_password@localhost:3306/db_test_name"
+  DATABASE_URL="mysql://user_name:password@localhost:3306/db_test_name"
 
 ```
 
