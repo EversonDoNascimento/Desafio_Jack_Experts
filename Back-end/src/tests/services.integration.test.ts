@@ -5,7 +5,8 @@ import { TaskPrisma } from "../services/task";
 
 const userPrisma = new UserPrisma();
 const user = new User();
-user.setEmail("jest3@test.com");
+const generatorEmail = Math.floor(Math.random() * 1000);
+user.setEmail(`jest${generatorEmail}@test.com`);
 user.setPassword("1234");
 
 const taskPrisma = new TaskPrisma();
@@ -17,7 +18,7 @@ task.setCompleted(0);
 describe("Test suite responsible for testing the user service", () => {
   // Teste responsável pela criação de usuário
 
-  it("Testing the user creation", async () => {
+  it("Should create a new user", async () => {
     const userCreate = await userPrisma.createUser(user);
     // Verificando se a instância da classe retornada é do tipo User
     expect(userCreate).toBeInstanceOf(User);
@@ -30,7 +31,7 @@ describe("Test suite responsible for testing the user service", () => {
   });
 
   // Teste responsável por buscar usuário pelo ID
-  it("Testing search user by id", async () => {
+  it("Should return a user by id", async () => {
     // Buscando usuário por ID
     const findUserById = await userPrisma.findUserById(user.getId());
     // Verificando se a instância da classe retornada é do tipo User
@@ -40,7 +41,7 @@ describe("Test suite responsible for testing the user service", () => {
   });
 
   // Teste responsável por buscar usuário por Email
-  it("Testing search user by Email", async () => {
+  it("Should return a user by Email", async () => {
     // Buscando usuário pelo Email
     const findUserByEmail = await userPrisma.findUserByEmail(user.getEmail());
     //Verificando se a instância da classe retornada é do tipo User
@@ -52,7 +53,7 @@ describe("Test suite responsible for testing the user service", () => {
 
 describe("Test suite responsible for testing the task service", () => {
   // Testando a criação de tarefa
-  it("Testing the task creation", async () => {
+  it("Should create a new task", async () => {
     // Criando tarefa
     const createTask = await taskPrisma.createTask(task);
     // Verificando se a instância da classe retornada é do tipo Task
@@ -61,7 +62,7 @@ describe("Test suite responsible for testing the task service", () => {
     task.setId(createTask?.getId() as string);
   });
   // Testando busca de tarefa por ID
-  it("Testing search task by Id", async () => {
+  it("Should return a task by Id", async () => {
     // Buscando a tarefa pelo ID
     const findTaskById = await taskPrisma.findTaskById(task.getId());
     // Verificando se a instância da classe retornada é do tipo Task
@@ -70,14 +71,14 @@ describe("Test suite responsible for testing the task service", () => {
     expect(findTaskById?.getId()).toBe(task.getId());
   });
   // Testando listagem de tarefas pelo ID do usuário
-  it("Testing list tasks by user Id", async () => {
+  it("Should listed tasks by user Id", async () => {
     // Buscando todas as tarefas do usuário
     const findTaskByUserId = await taskPrisma.listTasks(user.getId());
     // Verificando se o retorno da foi do tipo Array
     expect(findTaskByUserId).toBeInstanceOf(Array);
   });
   // Testando modificação de status da tarefa
-  it("Testing task status change", async () => {
+  it("Should change the status task", async () => {
     // Alterando status da tarefa
     const toggleStatus = await taskPrisma.completedTask(task.getId(), 2);
     // Verificando se o status foi alterado
@@ -85,7 +86,7 @@ describe("Test suite responsible for testing the task service", () => {
     expect(toggleStatus?.getCompleted()).toEqual(2);
   });
   // Testando a edição de uma tarefa
-  it("Testing task editing", async () => {
+  it("Should edit the task", async () => {
     // Setando as alterações na task
     task.setTitle("Modificando título..."),
       task.setDescription("Modificando descrição...");
@@ -96,7 +97,7 @@ describe("Test suite responsible for testing the task service", () => {
     expect(editTask?.getDescription()).toBe("Modificando descrição...");
   });
   // Testando a remoção da tarefa
-  it("Testing task removal", async () => {
+  it("Should remove the task", async () => {
     // Deletando a tarefa
     const deleteTask = await taskPrisma.deleteTask(task.getId());
     // Verificando se a tarefa foi deletada com sucesso. Caso retorne true significa que tudo ocorreu corretamente
