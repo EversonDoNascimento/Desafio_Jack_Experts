@@ -20,8 +20,7 @@ server.use(express.urlencoded({ extended: true }));
 server.all("*", requestIntercepter);
 server.use("/api", router);
 // Definindo a porta que o meu servidor vai utilizar para disponibilizar o acesso a API
-server.listen(process.env.PORT ? process.env.PORT : 3333, () => {
-  console.log(
-    `SERVER RUNNING ON PORT: ${process.env.PORT ? process.env.PORT : 3333}`
-  );
+const PORT = Number(process.env.PORT) || 3333;
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`SERVER RUNNING ON PORT: ${PORT}`);
 });

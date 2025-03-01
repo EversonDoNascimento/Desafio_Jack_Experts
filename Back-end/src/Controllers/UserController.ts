@@ -6,7 +6,6 @@ import { UserPrisma } from "../services/user";
 class UserController {
   // Criando um atributo com uma instância da classe UserPrisma
   private static userPrisma: UserPrisma = new UserPrisma();
-
   public static registerUser: RequestHandler = async (req, res, next) => {
     // Validando o que foi recebido no corpo da requisição com o meu schema definido no zod;
     const body = AuthSchema.safeParse(req.body);

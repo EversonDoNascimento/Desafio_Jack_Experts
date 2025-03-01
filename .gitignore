@@ -2,5 +2,4 @@ Back-end/.env
 Back-end/node_modules/
 Back-end/.env.test
 Back-end/dist/
-Back-end/dockerfile
-Back-end/docker-compose.yaml
+Back-end/data/**
