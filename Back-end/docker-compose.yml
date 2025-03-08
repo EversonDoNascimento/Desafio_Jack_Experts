@@ -35,10 +35,9 @@ services:
     image: front-to-do
     container_name: frontend_container
     restart: always
-    environment:
-      VITE_API_URL: ${VITE_API_URL}
+
     ports:
-      - "80:80"
+      - "8080:80"
 
 volumes:
   data:

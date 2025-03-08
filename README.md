@@ -10,6 +10,7 @@ O projeto lista de tarefas foi desenvolvido como solução para um desafio técn
 - [Testes](#testes)
 - [Desenvolvimento](#desenvolvimento)
 - [Deploy](#deploy)
+- [Docker](#docker)
 
 ## Sobre
 
@@ -80,10 +81,15 @@ git https://github.com/EversonDoNascimento/Desafio_Jack_Experts.git
 
 ```
 
-- Crie as variáveis JWT_KEY e DATABASE_URL
+- Crie as variáveis de ambiente
 
 ```bash
-# Conteúdo do .env
+  # Variáveis para o docker-compose
+  MYSQL_ROOT_PASSWORD=""
+  MYSQL_DATABASE=""
+  MYSQL_USER=""
+  MYSQL_PASSWORD=""
+
 
   JWT_KEY=""
   DATABASE_URL="mysql://user_name:password@localhost:3306/db_name"
@@ -168,6 +174,20 @@ Para a validação de dados, utilizei a biblioteca Zod, que é uma ferramenta po
 A escolha do Prisma como ORM foi baseada na facilidade de uso da ferramenta e nos benefícios que um ORM traz para o projeto, como a criação de migrations, que permitem gerenciar diferentes versões do esquema do banco de dados, e a facilidade em realizar uma eventual migração para outro SGBD no futuro.
 
 Por fim, os testes foram realizados com a biblioteca Jest, desenvolvida pelo Facebook, que oferece uma excelente integração com JavaScript. A decisão de focar em testes de integração se deve à simplicidade do sistema, que é basicamente um CRUD de um gerenciador de tarefas. Nesse contexto, a parte mais significativa a ser testada era a comunicação entre a lógica de negócio e o banco de dados.
+
+## Docker
+
+- Entre na raíz do diretório Back-end e execute o seguinte comando:
+
+**Obs.: Certifique-se de ter seguido o passo a passo para construir a imagem do Front-end antes.**
+
+```bash
+
+    docker-compose up -d
+
+```
+
+Após todos os contêiners iniciarem acesse: http://localhost:8080
 
 ## Deploy
 
